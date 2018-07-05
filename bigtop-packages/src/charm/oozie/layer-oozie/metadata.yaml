@@ -5,3 +5,6 @@ description: |
   blah
 
 tags: []
+provides:
+  client:
+    interface: oozie

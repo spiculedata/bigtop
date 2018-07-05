@@ -1,4 +1,4 @@
-includes: ['layer:apache-bigtop-base', 'layer:hadoop-client']
+includes: ['layer:apache-bigtop-base', 'layer:hadoop-client', 'interface:oozie']
 options:
   apache-bigtop-base:
     dirs:

@@ -37,3 +37,10 @@ def check_config():
     if data_changed('oozie.mode', mode):
         Oozie().update_config(mode)
         hookenv.status_set('active', 'ready (%s)' % mode)
+
+@when('oozie.installed', 'client.joined')
+def client_joined(client):
+    #dist = get_dist_config()
+    #port = dist.port('hive')
+    client.send_port("11000")
+    client.set_ready()

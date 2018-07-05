@@ -43,7 +43,7 @@ class Oozie(object):
         bigtop = Bigtop()
         bigtop.render_site_yaml(hosts,roles,override)
         bigtop.trigger_puppet()
-        check_output('dpkg', '-i', '--force-overwrite', '/var/cache/apt/archives/oozie_4.3.0-1_all.deb')
+        check_output(['dpkg', '-i', '--force-overwrite', '/var/cache/apt/archives/oozie_4.3.0-1_all.deb'])
         bigtop.trigger_puppet()
 
         # Set app version for juju status output; pig --version looks like:
