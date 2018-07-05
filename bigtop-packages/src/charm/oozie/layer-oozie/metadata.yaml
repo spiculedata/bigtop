@@ -1,0 +1,7 @@
+name: oozie
+summary: Oozie from Apache Bigtop
+maintainer: Juju Big Data <bigdata@lists.ubuntu.com>
+description: |
+  blah
+
+tags: []
