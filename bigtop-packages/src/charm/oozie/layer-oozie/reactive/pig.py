@@ -14,7 +14,7 @@
 # limitations under the License.
 
 from charmhelpers.core import hookenv
-from charms.layer.bigtop_pig import Pig
+from charms.layer.bigtop_pig import Oozie
 from charms.reactive import is_state, set_state, when, when_not
 from charms.reactive.helpers import data_changed
 

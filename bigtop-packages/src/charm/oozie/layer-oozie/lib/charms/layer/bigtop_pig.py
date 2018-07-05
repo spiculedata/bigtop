@@ -29,13 +29,13 @@ class Oozie(object):
         self.dist_config = utils.DistConfig(
             data=layer.options('apache-bigtop-base'))
 
-    def install_pig(self):
+    def install_oozie(self):
         '''
         Trigger the Bigtop puppet recipe that handles the Pig service.
         '''
         # Dirs are handled by the bigtop deb. No need to call out to
         # dist_config to do that work.
-        roles = ['oozie']
+        roles = ['oozie-server']
 
         bigtop = Bigtop()
         bigtop.render_site_yaml(roles=roles)
@@ -58,16 +58,16 @@ class Oozie(object):
         #     pig_ver = parts[3]
         # hookenv.application_version_set(pig_ver)
 
-    def initial_pig_config(self):
+    def initial_oozie_config(self):
         '''
         Configure system-wide pig bits.
         '''
-        pig_bin = self.dist_config.path('pig') / 'bin'
+        pig_bin = self.dist_config.path('oozie') / 'bin'
         with utils.environment_edit_in_place('/etc/environment') as env:
             if pig_bin not in env['PATH']:
                 env['PATH'] = ':'.join([env['PATH'], pig_bin])
-            env['PIG_CONF_DIR'] = self.dist_config.path('pig_conf')
-            env['PIG_HOME'] = self.dist_config.path('pig')
+            env['PIG_CONF_DIR'] = self.dist_config.path('oozie_conf')
+            env['PIG_HOME'] = self.dist_config.path('oozie')
             env['HADOOP_CONF_DIR'] = self.dist_config.path('hadoop_conf')
 
     def update_config(self, mode):
