@@ -29,16 +29,19 @@ class Oozie(object):
         self.dist_config = utils.DistConfig(
             data=layer.options('apache-bigtop-base'))
 
-    def install_oozie(self):
+    def install_oozie(self, hosts):
         '''
         Trigger the Bigtop puppet recipe that handles the Pig service.
         '''
         # Dirs are handled by the bigtop deb. No need to call out to
         # dist_config to do that work.
-        roles = ['oozie-server']
+        roles = ['oozie-server', 'mapred-app']
 
+        override = {
+            'bigtop::jdk_preinstalled': False
+        }
         bigtop = Bigtop()
-        bigtop.render_site_yaml(roles=roles)
+        bigtop.render_site_yaml(hosts,roles,override)
         bigtop.trigger_puppet()
 
         # Set app version for juju status output; pig --version looks like:

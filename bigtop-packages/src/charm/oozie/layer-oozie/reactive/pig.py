@@ -19,12 +19,14 @@ from charms.reactive import is_state, set_state, when, when_not
 from charms.reactive.helpers import data_changed
 
 
-@when('bigtop.available')
+@when('bigtop.available', 'hadoop.hdfs.ready')
 @when_not('oozie.installed')
-def install_oozie():
+def install_oozie(hdfs):
     hookenv.status_set('maintenance', 'installing oozie')
+    hosts = {}
+    hosts['namenode'] = hdfs.namenodes()[0]
     oozie = Oozie()
-    oozie.install_oozie()
+    oozie.install_oozie(hosts)
     oozie.initial_oozie_config()
     set_state('oozie.installed')
 
