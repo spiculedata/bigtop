@@ -1,13 +1,10 @@
-repo: https://github.com/apache/bigtop/tree/master/bigtop-packages/src/charm/pig/layer-pig
-includes:
-  - 'layer:apache-bigtop-base'
-  - 'layer:hadoop-client'
+includes: ['layer:apache-bigtop-base', 'layer:hadoop-client']
 options:
   apache-bigtop-base:
     dirs:
-      pig:
+      oozie:
         path: '/usr/lib/oozie'
-      pig_conf:
+      oozie_conf:
         path: '/etc/oozie/conf'
       hadoop_conf:
         path: '/etc/hadoop/conf'
