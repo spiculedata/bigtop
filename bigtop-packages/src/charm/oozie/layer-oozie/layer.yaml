@@ -8,3 +8,5 @@ options:
         path: '/etc/oozie/conf'
       hadoop_conf:
         path: '/etc/hadoop/conf'
+series:
+  - xenial
