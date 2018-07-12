@@ -31,7 +31,7 @@ class Oozie(object):
 
     def install_oozie(self, hosts):
         '''
-        Trigger the Bigtop puppet recipe that handles the Pig service.
+        Trigger the Bigtop puppet recipe that handles the Oozie service.
         '''
         # Dirs are handled by the bigtop deb. No need to call out to
         # dist_config to do that work.
@@ -45,23 +45,9 @@ class Oozie(object):
         bigtop.trigger_puppet()
         check_output(['dpkg', '-i', '--force-overwrite', '/var/cache/apt/archives/oozie_4.3.0-1_all.deb'])
         bigtop.trigger_puppet()
-
-        # Set app version for juju status output; pig --version looks like:
-        #   Apache Pig version 0.15.0 (r: unknown)
-        #   compiled Feb 06 2016, 23:00:40
-        # try:
-        #     pig_out = check_output(['pig', '-x', 'local', '--version']).decode()
-        # except CalledProcessError as e:
-        #     pig_out = e.output
-        # lines = pig_out.splitlines()
-        # parts = lines[0].split() if lines else []
-        # if len(parts) < 4:
-        #     hookenv.log('Error getting Pig version: {}'.format(pig_out),
-        #                 hookenv.ERROR)
-        #     pig_ver = ''
-        # else:
-        #     pig_ver = parts[3]
-        # hookenv.application_version_set(pig_ver)
+        check_output(['tar', 'xvfz', '/usr/lib/oozie/oozie-sharelib.tar.gz', '-C', '/mnt'])
+        check_output(['su' 'hdfs', '-c', '"hadoop fs -copyFromLocal /mnt/share/lib/* /user/oozie/share/lib/"'])
+        check_output(['service', 'oozie', 'restart'])
 
     def initial_oozie_config(self):
         '''
