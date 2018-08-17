@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from subprocess import CalledProcessError, check_output
+from subprocess import CalledProcessError, check_output, call
 
 from charms.layer.apache_bigtop_base import Bigtop
 from charms import layer
@@ -46,7 +46,7 @@ class Oozie(object):
         check_output(['dpkg', '-i', '--force-overwrite', '/var/cache/apt/archives/oozie_4.3.0-1_all.deb'])
         bigtop.trigger_puppet()
         check_output(['tar', 'xvfz', '/usr/lib/oozie/oozie-sharelib.tar.gz', '-C', '/mnt'])
-        call(['su', 'hdfs', '-c', '"hadoop fs -copyFromLocal /mnt/share/lib/* /user/oozie/share/lib/"'])
+        call(['../../../scripts/copyfiles.sh'])
         check_output(['service', 'oozie', 'restart'])
 
     def initial_oozie_config(self):
