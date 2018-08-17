@@ -46,7 +46,7 @@ class Oozie(object):
         check_output(['dpkg', '-i', '--force-overwrite', '/var/cache/apt/archives/oozie_4.3.0-1_all.deb'])
         bigtop.trigger_puppet()
         check_output(['tar', 'xvfz', '/usr/lib/oozie/oozie-sharelib.tar.gz', '-C', '/mnt'])
-        check_output(['../../../scripts/copyfiles.sh'])
+        check_output(['scripts/copyfiles.sh'])
         check_output(['service', 'oozie', 'restart'])
 
     def initial_oozie_config(self):
