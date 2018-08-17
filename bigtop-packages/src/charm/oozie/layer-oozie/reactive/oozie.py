@@ -17,6 +17,7 @@ from charmhelpers.core import hookenv
 from charms.layer.bigtop_oozie import Oozie
 from charms.reactive import is_state, set_state, when, when_not
 from charms.reactive.helpers import data_changed
+from charmhelpers.core.hookenv import unit_private_ip
 
 
 @when('bigtop.available', 'hadoop.hdfs.ready')
@@ -38,9 +39,6 @@ def check_config():
         Oozie().update_config(mode)
         hookenv.status_set('active', 'ready (%s)' % mode)
 
-@when('oozie.installed', 'client.joined')
-def client_joined(client):
-    #dist = get_dist_config()
-    #port = dist.port('hive')
-    client.send_port("11000")
-    client.set_ready()
+@when('oozie.config.requested')
+def ship_config(endpoint):
+    endpoint.provide_config(unit_private_ip(), '11000')
